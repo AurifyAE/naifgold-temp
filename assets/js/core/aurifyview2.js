@@ -1,5 +1,5 @@
 // import { readSpreadValues } from '../core/spotrateDB.js';
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 import { app } from '../../../config/db.js';
 
 // const { JSDOM } = require('jsdom');
@@ -303,15 +303,40 @@ async function readData() {
         return Promise.reject('User not authenticated');
     }
 
-    const querySnapshot = await getDocs(collection(firestore, `users/${uid}/commodities`));
-    const result = [];
-    querySnapshot.forEach((doc) => {
-        result.push({
-            id: doc.id,
-            data: doc.data()
+    // Create a reference to the user's commodities collection
+    const commoditiesCollectionRef = collection(firestore, `users/${uid}/commodities`);
+
+    try {
+        // Construct a query to order commodities by timestamp
+        const orderedQuery = query(commoditiesCollectionRef, orderBy("timestamp"));
+
+        // Execute the ordered query
+        const querySnapshot = await getDocs(orderedQuery);
+
+        // Initialize an array to store the results
+        const result = [];
+
+        // Iterate over the query snapshot to extract document data
+        querySnapshot.forEach((doc) => {
+            // Extract the timestamp field from the document data
+            const timestamp = doc.data().timestamp; // Assuming 'timestamp' is the field name
+            result.push({
+                id: doc.id,
+                data: doc.data(),
+                timestamp: timestamp // Add the timestamp to the result object
+            });
         });
-    });
-    return result;
+
+        // Sort the result array by timestamp
+        result.sort((a, b) => a.timestamp - b.timestamp);
+
+        // 'result' now contains commodities ordered by timestamp
+        console.log(result);
+        return result;
+
+    } catch (error) {
+        console.error("Error getting documents: ", error);
+    }
 }
 
 // Show Table from Database
@@ -321,7 +346,7 @@ async function showTable() {
         // console.log('Data read successfully:', tableData);
 
         const tableBody = document.getElementById('tableBodyTV');
-        const tableCoins = document.getElementById('tableCoins'); 
+        const tableCoins = document.getElementById('tableCoins');
         const tableMintedBars = document.getElementById('tableMintedBars');
         console.log(tableData);
 
@@ -423,10 +448,10 @@ async function showTable() {
                         newRow2.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
                         newRow2.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
                     }
-                } else if(metalInput === 'Minted Bar'){
+                } else if (metalInput === 'Minted Bar') {
                     newRow3.innerHTML = `
                     <td style="text-align: right;" id="metalInput">Minted Bars</td>
-                    <td style="text-align: left; font-size:28px; font-weight: 600;">${purityInput}</td>
+                    <td style="text-align: left; font-size:28px; font-weight: 600;"></td>
                     <td>${unitInput} ${weightInput}</td>
                     <td id="buyAED">0</td>
                     <td id="sellAED">0</td>

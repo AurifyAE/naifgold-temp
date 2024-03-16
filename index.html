@@ -115,10 +115,10 @@
 
 
     /* Hover effect for better user experience */
-    .card-table tbody tr:hover {
+    /* .card-table tbody tr:hover {
       background-color: #d40055
         /* Lighter gray on hover */
-    }
+    } */
 
     .date-time {
       display: flex;
@@ -214,12 +214,18 @@
       font-size: 1.7vw;
       font-weight: 500;
       padding: 10px;
+      margin-bottom: -15px;
     }
 
-    .table-rows div:last-child table tr{
+    .table-rows div:last-child table tbody{
       background-color: #696969;
       margin-bottom: 15px;
       text-align:  center;
+    }
+
+    .table-rows table tbody tr td{
+      padding: 15px;
+      font-weight: 600;
     }
 
     .news-card {
@@ -336,7 +342,7 @@
       text-align: center;
       border-radius: 5px;
       margin: 0 auto;
-
+      margin-left: 65%;
     }
 
     #clock {
