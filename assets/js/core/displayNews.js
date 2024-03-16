@@ -19,7 +19,7 @@ const auth = getAuth(app);
 // Function to Read News from Database
 function displayNews() {
     // Get the UID of the authenticated user
-    const uid = 'G46UZJNWfJhGAWytlVuUzFXzKf13';
+    const uid = 'u5MUCo26GmQDVeFEZVFimwgd6vP2';
 
     if (!uid) {
         console.error('User not authenticated');
