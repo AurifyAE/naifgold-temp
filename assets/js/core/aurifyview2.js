@@ -346,7 +346,7 @@ async function showTable() {
         // console.log('Data read successfully:', tableData);
 
         const tableBody = document.getElementById('tableBodyTV');
-        const tableCoins = document.getElementById('tableCoins');
+        // const tableCoins = document.getElementById('tableCoins');
         const tableMintedBars = document.getElementById('tableMintedBars');
         console.log(tableData);
 
@@ -374,7 +374,7 @@ async function showTable() {
 
             // Create a new table row
             const newRow = document.createElement("tr");
-            const newRow2 = document.createElement("tr");
+            // const newRow2 = document.createElement("tr");
             const newRow3 = document.createElement("tr");
 
             newRow.style.marginBottom = "25px"
@@ -410,7 +410,6 @@ async function showTable() {
                     <td style="text-align: right; margin-top: 10px;" id="metalInput">Gold</td>
                     <td style="text-align: left; font-size:28px; font-weight: 600; margin-top: 10px;">${purityInput}</td>
                     <td style="margin-top: 10px;">${unitInput} ${weightInput}</td>
-                    <td id="buyAED" style="margin-top: 10px;">0</td>
                     <td id="sellAED" style="margin-top: 10px;">0</td>
                     `;
 
@@ -426,34 +425,11 @@ async function showTable() {
                         newRow.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
                         newRow.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
                     }
-                } else if (metalInput === "Gold Coin") {
-                    newRow2.innerHTML = `
-                    <td style="text-align: right;" id="metalInput">Gold Coins</td>
-                    <td style="text-align: left; font-size:28px; font-weight: 600;">${purityInput}</td>
-                    <td>${unitInput} ${weightInput}</td>
-                    <td id="buyAED">0</td>
-                    <td id="sellAED">0</td>
-                    
-                    `;
-
-                    if (weight === "GM") {
-                        // Update the sellAED and buyAED values for the current 
-                        newRow2.querySelector("#sellAED").innerText = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
-                        newRow2.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
-                    } else {
-                        // Update the sellAED and buyAED values for the current row
-                        const sellAEDValue = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
-                        const buyAEDValue = parseInt((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
-
-                        newRow2.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
-                        newRow2.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
-                    }
                 } else if (metalInput === 'Minted Bar') {
                     newRow3.innerHTML = `
                     <td style="text-align: right;" id="metalInput">Minted Bars</td>
                     <td style="text-align: left; font-size:28px; font-weight: 600;"></td>
                     <td>${unitInput} ${weightInput}</td>
-                    <td id="buyAED">0</td>
                     <td id="sellAED">0</td>
                     
                     `;
@@ -476,7 +452,7 @@ async function showTable() {
 
             // Append the new row to the table body
             tableBody.appendChild(newRow);
-            tableCoins.appendChild(newRow2);
+            // tableCoins.appendChild(newRow2);
             tableMintedBars.appendChild(newRow3);
         }
     } catch (error) {
