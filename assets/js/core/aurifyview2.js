@@ -377,6 +377,7 @@ async function showTable() {
             const newRow2 = document.createElement("tr");
             const newRow3 = document.createElement("tr");
 
+            newRow.style.marginBottom = "25px"
 
             displaySpreadValues();
 
@@ -406,12 +407,11 @@ async function showTable() {
 
                 if (metalInput === "Gold" || metalInput === "Gold kilobar" || metalInput === "Gold TOLA" || metalInput === "Gold TEN TOLA") {
                     newRow.innerHTML = `
-                    <td style="text-align: right;" id="metalInput">Gold</td>
-                    <td style="text-align: left; font-size:28px; font-weight: 600;">${purityInput}</td>
-                    <td>${unitInput} ${weightInput}</td>
-                    <td id="buyAED">0</td>
-                    <td id="sellAED">0</td>
-                    
+                    <td style="text-align: right; margin-top: 10px;" id="metalInput">Gold</td>
+                    <td style="text-align: left; font-size:28px; font-weight: 600; margin-top: 10px;">${purityInput}</td>
+                    <td style="margin-top: 10px;">${unitInput} ${weightInput}</td>
+                    <td id="buyAED" style="margin-top: 10px;">0</td>
+                    <td id="sellAED" style="margin-top: 10px;">0</td>
                     `;
 
                     if (weight === "GM") {
@@ -458,7 +458,7 @@ async function showTable() {
                     
                     `;
 
-                    if (weight === "GM") {
+                    if (weight === "GM" && unitInput < 1) {
                         // Update the sellAED and buyAED values for the current 
                         newRow3.querySelector("#sellAED").innerText = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
                         newRow3.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
