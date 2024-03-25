@@ -427,7 +427,7 @@ async function showTable() {
                     }
                 } else if (metalInput === 'Minted Bar') {
                     newRow3.innerHTML = `
-                    <td style="text-align: right;" id="metalInput">Minted Bars</td>
+                    <td style="text-align: center;" id="metalInput">Minted Bars</td>
                     <td style="text-align: left; font-size:28px; font-weight: 600;"></td>
                     <td>${unitInput} ${weightInput}</td>
                     <td id="sellAED">0</td>
