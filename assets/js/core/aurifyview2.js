@@ -203,19 +203,19 @@ async function fetchData() {
 
         // LowLabelGold
         element = document.getElementById("lowLabelGold");
-        element.style.backgroundColor = "red";
+        element.style.backgroundColor = "white";
 
         // HighLabelGold
         element = document.getElementById("highLabelGold");
-        element.style.backgroundColor = "green";
+        element.style.backgroundColor = "white";
 
         // LowLabelSilver
         element = document.getElementById("lowLabelSilver");
-        element.style.backgroundColor = "red";
+        element.style.backgroundColor = "white";
 
         // HighLabelSilver
         element = document.getElementById("highLabelSilver");
-        element.style.backgroundColor = "green";
+        element.style.backgroundColor = "white";
     } catch (error) {
         console.error('Error fetching gold and silver values:', error);
     }
