@@ -30,11 +30,12 @@ const socket = io('https://meta-api-server.onrender.com');
 function fetchData2() {
     socket.on('goldValue', (goldValues) => {
         // console.log('Received gold value:', goldValues);
+        
         goldHigh = goldValues.high;
         goldLow =   goldValues.low;
         const value = goldValues.bid;
         goldBuy = (value + bidSpread).toFixed(2);
-        goldSell = (value + askSpread + parseFloat(0.5)).toFixed(2);
+        goldSell = (value + bidSpread + askSpread + parseFloat(0.5)).toFixed(2);
 
         var GoldUSDResult = (value / 31.1035).toFixed(4);
         goldValue = (GoldUSDResult * 3.67).toFixed(4);
