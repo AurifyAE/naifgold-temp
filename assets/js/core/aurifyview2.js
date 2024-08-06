@@ -23,24 +23,29 @@ setInterval(() => {
 showTable();
 
 
-let askSpread, bidSpread, goldValue, silverBidSpread, silverAskSpread, goldBuy, goldSell, silverBuy, silverSell, silverValue, goldHigh, goldLow;
+let askSpread, bidSpread, goldValueBuy, goldValueSell, silverBidSpread, silverAskSpread, goldBuy, goldSell, silverBuy, silverSell, silverValue, goldHigh, goldLow;
 
 const socket = io('https://meta-api-server.onrender.com');
+
 
 function fetchData2() {
     socket.on('goldValue', (goldValues) => {
         // console.log('Received gold value:', goldValues);
-        
+
         goldHigh = goldValues.high;
-        goldLow =   goldValues.low;
+        goldLow = goldValues.low;
         const value = goldValues.bid;
         goldBuy = (value + bidSpread).toFixed(2);
         goldSell = (value + bidSpread + askSpread + parseFloat(0.5)).toFixed(2);
-
-        var GoldUSDResult = (value / 31.1035).toFixed(4);
-        goldValue = (GoldUSDResult * 3.67).toFixed(4);
         // You can do something with the received gold value here, like updating UI
     });
+
+    
+    var goldBuyUSD = (goldBuy / 31.1035).toFixed(4);
+    goldValueBuy = (goldBuyUSD * 3.67).toFixed(4);
+
+    var goldSellUSD = (goldSell / 31.1035).toFixed(4);
+    goldValueSell = (goldSellUSD * 3.67).toFixed(4);
 }
 
 
@@ -418,12 +423,12 @@ async function showTable() {
 
                     if (weight === "GM") {
                         // Update the sellAED and buyAED values for the current 
-                        newRow.querySelector("#sellAED").innerText = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
-                        newRow.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
+                        newRow.querySelector("#sellAED").innerText = parseFloat((parseFloat(goldValueSell) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
+                        newRow.querySelector("#buyAED").innerText = (parseFloat(goldValueBuy) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(4);
                     } else {
                         // Update the sellAED and buyAED values for the current row
-                        const sellAEDValue = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
-                        const buyAEDValue = parseInt((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
+                        const sellAEDValue = parseFloat((parseFloat(goldValueSell) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
+                        const buyAEDValue = parseInt(parseFloat(goldValueBuy) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
 
                         newRow.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
                         newRow.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
@@ -439,12 +444,12 @@ async function showTable() {
 
                     if (weight === "GM" && unitInput < 1) {
                         // Update the sellAED and buyAED values for the current 
-                        newRow3.querySelector("#sellAED").innerText = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
-                        newRow3.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
+                        newRow3.querySelector("#sellAED").innerText = parseFloat((parseFloat(goldValueSell) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
+                        newRow3.querySelector("#buyAED").innerText = (parseFloat(goldValueBuy) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(4);
                     } else {
                         // Update the sellAED and buyAED values for the current row
-                        const sellAEDValue = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
-                        const buyAEDValue = parseInt((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
+                        const sellAEDValue = parseFloat((parseFloat(goldValueSell) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
+                        const buyAEDValue = parseInt(parseFloat(goldValueBuy) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
 
                         newRow3.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
                         newRow3.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
